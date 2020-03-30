@@ -15,10 +15,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold (
       appBar: AppBar(
-        title: Text('texto'),
+        title: Text('QR Scaner'),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.delete_forever),
+            onPressed: (){},
+            
+          )
+        ],
       ),
       body: _callPage(currentIndex),
       bottomNavigationBar:  _crearBottomNavigationBar(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.filter_center_focus),
+        onPressed: (){},
+            backgroundColor: Theme.of(context).primaryColor
+      ),
     );
   }
 
@@ -41,7 +55,7 @@ class _HomePageState extends State<HomePage> {
       currentIndex: currentIndex ,
       onTap: (index){
         setState(() {
-          currentIndex = index;
+          currentIndex = index; 
         });
       },
       items: [
