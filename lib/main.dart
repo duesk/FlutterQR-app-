@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qr_reader_app/src/Pages/show_map_page.dart';
 import 'package:qr_reader_app/src/pages/homepage.dart';
+
+
  
 void main() => runApp(MyApp());
  
@@ -11,7 +14,8 @@ class MyApp extends StatelessWidget {
       title: 'QR Reader',
       initialRoute: "home" ,
       routes: {
-        "home" : (BuildContext context) => HomePage()
+        "home" : (BuildContext context) => HomePage(),
+        "mapa" : (BuildContext context) => MapaPage()
       },
       theme: ThemeData(
         primaryColor: Colors.greenAccent[400]

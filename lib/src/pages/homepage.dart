@@ -1,6 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:qr_reader_app/src/Bloc/Scans_bloc.dart';
+import 'package:qr_reader_app/src/Models/scan_model.dart';
+
+
 import 'package:qr_reader_app/src/pages/direcciones_page.dart';
 import 'package:qr_reader_app/src/pages/mapas_page.dart';
+import 'package:qr_reader_app/src/utils/utils.dart' as utils;
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,6 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final scansBloc = new ScansBloc(); 
 
   int currentIndex = 0 ;
 
@@ -20,8 +30,7 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.delete_forever),
-            onPressed: (){},
-            
+            onPressed: scansBloc.borrarScansTODOS,
           )
         ],
       ),
@@ -30,11 +39,51 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.filter_center_focus),
-        onPressed: (){},
+        onPressed: ()=> _scanQR(context),
             backgroundColor: Theme.of(context).primaryColor
       ),
     );
   }
+
+
+
+  _scanQR(BuildContext context )async{
+
+  //https://www.colibri3d.com/
+  //geo:20.615411570508865,-103.41829433878787
+
+
+  
+    String futureString = "https://www.colibri3d.com/";
+    String futureString2 = "geo:20.615411570508865,-103.41829433878787";
+/*
+    try{
+      futureString = await BarcodeScanner.scan();
+    }catch(e){
+      futureString = e.toString();
+
+    }
+      print("el codigo es: $futureString");
+*/  
+    if(futureString != null){
+      final scan = ScanModel(valor: futureString);
+      scansBloc.agregarScan(scan);
+
+      final scan2 = ScanModel(valor: futureString2);
+      scansBloc.agregarScan(scan2);
+      
+      if (Platform.isIOS){
+        Future.delayed(Duration(milliseconds:750 ),(){
+        utils.abrirScan(scan,context);
+        });
+      }else{
+        utils.abrirScan(scan,context);
+      }
+    } 
+    
+  }
+
+
 
   Widget _callPage( int paginaActual){
     switch(paginaActual){
@@ -47,8 +96,9 @@ class _HomePageState extends State<HomePage> {
         return MapasPage();
 
     }
-
   }
+
+
 
   Widget _crearBottomNavigationBar(){
     return BottomNavigationBar(
