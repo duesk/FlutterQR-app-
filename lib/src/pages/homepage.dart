@@ -54,9 +54,9 @@ class _HomePageState extends State<HomePage> {
 
 
   
-    String futureString = "https://www.colibri3d.com/";
-    String futureString2 = "geo:20.615411570508865,-103.41829433878787";
-/*
+    String futureString;
+    //String futureString2 = "geo:20.615411570508865,-103.41829433878787";
+
     try{
       futureString = await BarcodeScanner.scan();
     }catch(e){
@@ -64,16 +64,12 @@ class _HomePageState extends State<HomePage> {
 
     }
       print("el codigo es: $futureString");
-*/  
+ 
     if(futureString != null){
       final scan = ScanModel(valor: futureString);
       scansBloc.agregarScan(scan);
-
-      final scan2 = ScanModel(valor: futureString2);
-      scansBloc.agregarScan(scan2);
-      
       if (Platform.isIOS){
-        Future.delayed(Duration(milliseconds:750 ),(){
+        Future.delayed(Duration(milliseconds:950 ),(){
         utils.abrirScan(scan,context);
         });
       }else{
